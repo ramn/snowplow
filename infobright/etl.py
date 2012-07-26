@@ -5,13 +5,18 @@
 # following function looks in specified directory and returns a list of folders
 import os
 import re
-def get_eligible_subdirectories(dir):
+def getEligibleSubFolders(dir):
     return [name for name in os.listdir(dir)
             if (os.path.isdir(os.path.join(dir, name)) and re.match(r'dt=\d\d\d\d-\d\d-\d\d', name))]
 
+# following function parses the date from the folder name
+def getDate(subFolder):
+	# folder name is of the form 'dt=YYYY-MM-DD' so extracting the date just means eliminating the first three characters
+	return subFolder[3:]
+
 # processLine takes an input line of Hive data (ctrl-a delimited with browser features packed into an array) 
 # and returns a tab delimited string suitable for import into InfoBright
-def processLine(inputLine):
+def processLine(inputLine, dt):
 	# check that the line of data corresponds to the expected format (i.e. 24 fields, each ctrl-a delimited)
 	
 	# create a list, where each field in the original line of data constitues one element in the list
@@ -22,7 +27,7 @@ def processLine(inputLine):
 	# NOTE: is there a better way to do this than using a mutable list?
 
 	# then convert the list into a tabl delimited string suitable to be imported into InfoBright
-	outputLine = '\t'.join(map(str, fieldsList))
+	outputLine = dt +'\t' + '\t'.join(map(str, fieldsList))
 	
 	return outputLine
 
@@ -106,7 +111,7 @@ inputFolder = opts.infolder
 # Create an output file
 o = open(outfile, 'w')
 
-listOfSubFolders = get_eligible_subdirectories(inputFolder)
+listOfSubFolders = getEligibleSubFolders(inputFolder)
 for subFolder in listOfSubFolders:
 	print "Processing folder ", subFolder
 	
@@ -116,7 +121,7 @@ for subFolder in listOfSubFolders:
 		print "Processing file" + os.path.join(inputFolder, subFolder, file)
 		inputLine = i.readline()
 		while inputLine:
-			o.writelines(processLine(inputLine))
+			o.writelines(processLine(inputLine, getDate(subFolder)))
 			inputLine = i.readline()
 
 i.close()
