@@ -112,32 +112,15 @@ for subFolder in listOfSubFolders:
 	# check if file name matches
 	# TO WRITE APPROPRIATE FUNCTION i.e. if check(folder) then: ...
 	
-	listOfFiles = os.listdir(inputFolder + '/' + subFolder)
+	listOfFiles = os.listdir(os.path.join(inputFolder, subFolder))
 	for file in listOfFiles:
-		i = open(inputFolder + '/' + subFolder + '/' + file, 'r')
-		print "Processing file" + inputFolder + '/' + subFolder + '/' + file
+		i = open(os.path.join(inputFolder, subFolder, file), 'r')
+		print "Processing file" + os.path.join(inputFolder, subFolder, file)
 		inputLine = i.readline()
 		while inputLine:
 			o.writelines(processLine(inputLine))
 			inputLine = i.readline()
 
-'''
-# Open the input file
-i = open(infolder, 'r')
-inputLine = i.readline()
 
-counter = 0
-while inputLine:
-	# new, functional approach:
-	o.writelines(processLine(inputLine))
-
-	# print status update
-	counter = counter + 1
-	print "written line ", counter
-
-	inputLine = i.readline()
-	
-# close input and output file
-'''
 i.close()
 o.close()
