@@ -3,11 +3,11 @@
 # ***********************************************************************************************************
 
 # following function looks in specified directory and returns a list of folders
-# TO DO: update function so that pattern matches on directory name and only returns folders that have names of the correct form i.e. 'dt=YYYY-MM-DD'
 import os
+import re
 def get_eligible_subdirectories(dir):
     return [name for name in os.listdir(dir)
-            if os.path.isdir(os.path.join(dir, name))]
+            if (os.path.isdir(os.path.join(dir, name)) and re.match(r'dt=\d\d\d\d-\d\d-\d\d', name))]
 
 # processLine takes an input line of Hive data (ctrl-a delimited with browser features packed into an array) 
 # and returns a tab delimited string suitable for import into InfoBright
@@ -109,8 +109,6 @@ o = open(outfile, 'w')
 listOfSubFolders = get_eligible_subdirectories(inputFolder)
 for subFolder in listOfSubFolders:
 	print "Processing folder ", subFolder
-	# check if file name matches
-	# TO WRITE APPROPRIATE FUNCTION i.e. if check(folder) then: ...
 	
 	listOfFiles = os.listdir(os.path.join(inputFolder, subFolder))
 	for file in listOfFiles:
@@ -120,7 +118,6 @@ for subFolder in listOfSubFolders:
 		while inputLine:
 			o.writelines(processLine(inputLine))
 			inputLine = i.readline()
-
 
 i.close()
 o.close()
