@@ -44,8 +44,8 @@ def convertBrowserFeatures(inputFeatures):
 
 	allBrowserFeaturesList = ["pdf", "fla", "java", "dir", "qt", "realp", "wma", "gears", "ag"]
 
-	browser_features_present = lambda feature: str(feature in browserFeaturesList)
-	return "\t".join(map(is_present, allBrowserFeaturesList))
+	browserFeaturesPresent = lambda feature: str(feature in browserFeaturesList)
+	return "\t".join(map(browserFeaturesPresent, allBrowserFeaturesList))
 
 
 # ***********************************************************************************************************
