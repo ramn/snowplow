@@ -27,7 +27,7 @@ def processLine(inputLine, dt, debugFile):
 		fieldsList[24] = convertBrowserFeatures(fieldsList[24]) # NOTE: is there a better way to do this than using a mutable list?
 	except:
 		print "ERROR! inputLine is \t", inputLine
-		debugFile.writelines("Error converting 24th field (browser features)  to new format in line \t" + inputLine)
+		debugFile.writelines("Error converting 24th field (browser features)  to new format.\n Date = \t" + dt + "\n Line = \t" + inputLine)
 
 	# then convert the list into a tab delimited string suitable to be imported into InfoBright
 	outputLine = dt +'\t' + '\t'.join(map(str, fieldsList))
