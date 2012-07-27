@@ -42,49 +42,10 @@ def convertBrowserFeatures(inputFeatures):
 	# create a list, where each element is one of the features
 	browserFeaturesList = inputFeatures.split(chr(2))
 
-	# now check for the existence of each browser feature, and assign the appropriate value to the feature variable
-	br_features_pdf = False
-	br_features_flash = False
-	br_features_java = False
-	br_features_director = False
-	br_features_quicktime = False
-	br_features_realplayer = False
-	br_features_windowsmedia = False
-	br_features_gears = False
-	br_features_silverlight = False
+	allBrowserFeaturesList = ["pdf", "fla", "java", "dir", "qt", "realp", "wma", "gears", "ag"]
 
-	if 'pdf' in browserFeaturesList:
-		br_features_pdf = True
-
-	if 'flash' in browserFeaturesList:
-		br_features_flash = True
-
-	if 'java' in browserFeaturesList:
-		br_features_java = True
-
-	if 'dir' in browserFeaturesList:
-		br_features_director = True
-
-	if 'qt' in browserFeaturesList:
-		br_features_quicktime = True
-
-	if 'realp' in browserFeaturesList:
-		br_features_realplayer = True
-
-	if 'wma' in browserFeaturesList:
-		br_features_windowsmedia = True
-
-	if 'gears' in browserFeaturesList:
-		br_features_gears = True
-
-	if 'ag' in browserFeaturesList:
-		br_features_silverlight = True
-
-	# now concatenate the results together into a single tab delimited string 
-	outputBrowserFeatures = str(br_features_pdf) + '\t' + str(br_features_flash) + '\t' + str(br_features_java) + '\t' + str(br_features_director) + '\t' + str(br_features_quicktime) + '\t' + str(br_features_realplayer) + '\t' + str(br_features_windowsmedia) + '\t' + str(br_features_gears) + '\t' + str(br_features_silverlight)
-
-	return outputBrowserFeatures
-
+	browser_features_present = lambda feature: str(feature in browserFeaturesList)
+	return "\t".join(map(is_present, allBrowserFeaturesList))
 
 
 # ***********************************************************************************************************
