@@ -16,17 +16,20 @@ def getDate(subFolder):
 
 # processLine takes an input line of Hive data (ctrl-a delimited with browser features packed into an array) 
 # and returns a tab delimited string suitable for import into InfoBright
-def processLine(inputLine, dt):
+def processLine(inputLine, dt, debugFile):
 	# check that the line of data corresponds to the expected format (i.e. 24 fields, each ctrl-a delimited)
 	
 	# create a list, where each field in the original line of data constitues one element in the list
 	fieldsList = inputLine.split(chr(1))
 
 	# convert the browser features array (the Xth element in the list) into a single tab delimited string
-	fieldsList[24] = convertBrowserFeatures(fieldsList[24])
-	# NOTE: is there a better way to do this than using a mutable list?
+	try: 
+		fieldsList[24] = convertBrowserFeatures(fieldsList[24]) # NOTE: is there a better way to do this than using a mutable list?
+	except:
+		print "ERROR! inputLine is \t", inputLine
+		debugFile.writelines("Error converting 24th field (browser features)  to new format in line \t" + inputLine)
 
-	# then convert the list into a tabl delimited string suitable to be imported into InfoBright
+	# then convert the list into a tab delimited string suitable to be imported into InfoBright
 	outputLine = dt +'\t' + '\t'.join(map(str, fieldsList))
 	
 	return outputLine
@@ -101,15 +104,26 @@ p.add_option("--output", action="store", dest="outfile")
 p.add_option("-i", dest="infolder")
 p.add_option("--input", dest="infolder")
 
+# debug file. (This is set to error.log if not alternative argument is supplied)
+p.add_option("-d", dest="debugfile")
+p.add_option("--debug", dest="debugfile")
+
+# set default debug file to error.log
+p.set_defaults(debugfile = "error.log")
+
 # parse the command line
 opts, args = p.parse_args()
 
 # retrieve the options settings
 outfile = opts.outfile
 inputFolder = opts.infolder 
+debugFile = opts.debugfile
 
 # Create an output file
 o = open(outfile, 'w')
+
+# create the debug file
+d = open(debugFile, 'w')
 
 listOfSubFolders = getEligibleSubFolders(inputFolder)
 for subFolder in listOfSubFolders:
@@ -121,7 +135,7 @@ for subFolder in listOfSubFolders:
 		print "Processing file" + os.path.join(inputFolder, subFolder, file)
 		inputLine = i.readline()
 		while inputLine:
-			o.writelines(processLine(inputLine, getDate(subFolder)))
+			o.writelines(processLine(inputLine, getDate(subFolder), d))
 			inputLine = i.readline()
 
 i.close()
