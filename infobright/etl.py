@@ -62,13 +62,13 @@ def convertBrowserFeatures(inputFeatures):
 	if 'java' in browserFeaturesList:
 		br_features_java = True
 
-	if 'director' in browserFeaturesList:
+	if 'dir' in browserFeaturesList:
 		br_features_director = True
 
-	if 'quicktime' in browserFeaturesList:
+	if 'qt' in browserFeaturesList:
 		br_features_quicktime = True
 
-	if 'realplayer' in browserFeaturesList:
+	if 'realp' in browserFeaturesList:
 		br_features_realplayer = True
 
 	if 'wma' in browserFeaturesList:
@@ -77,11 +77,11 @@ def convertBrowserFeatures(inputFeatures):
 	if 'gears' in browserFeaturesList:
 		br_features_gears = True
 
-	if 'silverlight' in browserFeaturesList:
+	if 'ag' in browserFeaturesList:
 		br_features_silverlight = True
 
 	# now concatenate the results together into a single tab delimited string 
-	outputBrowserFeatures = str(br_features_pdf) + '\t' + str(br_features_flash) + '\t' + str(br_features_java) + '\t' + str(br_features_director) + '\t' + str(br_features_quicktime) + '\t' + str(br_features_realplayer) + '\t' + str(br_features_windowsmedia) + '\t' + str(br_features_gears) + '\t' + str(br_features_gears) + '\t' + str(br_features_silverlight)
+	outputBrowserFeatures = str(br_features_pdf) + '\t' + str(br_features_flash) + '\t' + str(br_features_java) + '\t' + str(br_features_director) + '\t' + str(br_features_quicktime) + '\t' + str(br_features_realplayer) + '\t' + str(br_features_windowsmedia) + '\t' + str(br_features_gears) + '\t' + str(br_features_silverlight)
 
 	return outputBrowserFeatures
 
