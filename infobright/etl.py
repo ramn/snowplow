@@ -44,7 +44,7 @@ def convertBrowserFeatures(inputFeatures):
 
 	allBrowserFeaturesList = ["pdf", "fla", "java", "dir", "qt", "realp", "wma", "gears", "ag"]
 
-	browserFeaturesPresent = lambda feature: str(feature in browserFeaturesList)
+	browserFeaturesPresent = lambda feature: str(int(feature in browserFeaturesList)) # inclusion of int ensures that output is in 1s and 0s not Trues and Falses (necessary for Infobright)
 	return "\t".join(map(browserFeaturesPresent, allBrowserFeaturesList))
 
 
