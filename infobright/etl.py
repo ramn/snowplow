@@ -8,7 +8,7 @@ import re
 def getEligibleSubFolders(dir):
     return [name for name in os.listdir(dir)
             if (os.path.isdir(os.path.join(dir, name)) and re.match(r'dt=\d\d\d\d-\d\d-\d\d', name))]
-
+ 
 # following function parses the date from the folder name
 def getDate(subFolder):
 	# folder name is of the form 'dt=YYYY-MM-DD' so extracting the date just means eliminating the first three characters
