@@ -16,7 +16,7 @@ def processLine(inputLine):
 		dt = fieldsList[0]
 		tm = fieldsList[1]
 		user_ipaddress = fieldsList[5]
-		page_url = fieldsList[9]
+		page_url, mkt_source, mkt_medium, mkt_campaign, mkt_term, mkt_content = processCallingUrl(fieldsList[9])
 		user_agent = fieldsList[10]
 		uri_query = fieldsList[11]
 
@@ -24,27 +24,32 @@ def processLine(inputLine):
 		
 		browserAndOsDetails = processUserAgent(user_agent) # browserAndOsDetails is a map containing descriptors of the browser and OS (TODO: list fields in comment for clarity)
 
-		queryFields = processUriQuery(uri_query) # fields from the query string are packed in this dictionary
+		queryParameters = urlparse.qs(uri_query) # fields from the query string are packed in this dictionary
 
 		# Map snowplow.js query parameters to associated fields in Hive / Infobright / PostgreSql
-		txn_id 			= queryFields['tid']
-		user_id 		= queryFields['uid']
-		visit_id 		= queryFields['vid']
-		lang 			= queryFields['br_lang']
-		cookie 			= queryFields['br_cookie']
-		page_referrer 	= queryFields['refr']
-		page_url 		= queryFields['url']
-		ev_category 	= queryFields['ev_ca']
-		ev_action 		= queryFields['ev_ac']
-		ev_label 		= queryFields['ev_la']
-		ev_property 	= queryFields['ev_pr']
-		ev_value 		= queryFields['ev_va']
-		mkt_source		= queryFields['utm_source']
-		mkt_medium		= queryFields['utm_medium']
-		mkt_campaign	= queryFields['utm_campaign']
-		mkt_term		= queryFields['utm_term']
-		mkt_content		= queryFields['utm_content'] 
-
+		txn_id 			= queryParameters.get('tid', None)
+		user_id 		= queryParameters.get('uid', None)
+		visit_id 		= queryParameters.get('vid', None)
+		lang 			= queryParameters.get('br_lang', None)
+		cookie 			= queryParameters.get('br_cookie', None)
+		page_referrer 	= queryParameters.get('refr', None)
+		page_url 		= queryParameters.get('url', None)
+		ev_category 	= queryParameters.get('ev_ca', None)
+		ev_action 		= queryParameters.get('ev_ac', None)
+		ev_label 		= queryParameters.get('ev_la', None)
+		ev_property 	= queryParameters.get('ev_pr', None)
+		ev_value 		= queryParameters.get('ev_va', None)
+		if mkt_source = None:
+			mkt_source		= queryParameters.get('utm_source', None) 
+		if mkt_medium = None:
+			mkt_medium		= queryParameters.get('utm_medium', None)
+		if mkt_campaign = None:
+			mkt_campaign	= queryParameters.get('utm_campaign', None)
+		if mkt_term = None:
+			mkt_term		= queryParameters.get('utm_term', None)
+		if mkt_content = None:
+			mkt_content		= queryParameters.get('utm_content', None)
+		
 		return # return a string of tab delimited fields, by concatenating together
 
 	else:
@@ -77,29 +82,10 @@ def processUserAgent(user_agent):
 	# insert code here, leverage existing library (Google for best)
 	return 
 
-# processUriQuery takes the complete query string and returns a complete dictionary with each recognised element set
-def processUriQuery(queryFields):
-	
-	# Decompose the query string based on the '&' character into a list where each element is of the form 'queryParameter=value'. 
-	queryList = queryFields.split('&') 
-
-	# Filter the list so it only contains fields that contain '='
-	containsEquals = lambda x: "=" in x
-	queryListFiltered = filter(containsEquals, queryList)
-
-	# Convert the list of parameters in the form (key=value) into a dictionary where each entry takes the form (key, value)
-	queryDictionary = dict(map(splitKeyValue, queryList))
-
-	# If any of the fields are NOT present in the dictionary, add them and set the values to NULL
-	possibleParameters = ["tid", "uid", "vid", "lang", "cookie", "refr", "page", "url", "ev_ca", "ev_la", "ev_pr", "ev_va", "f_pdf", "f_fla", "f_java", "f_dir", "f_qt", "f_realp", "f_wma", "f_gears", "f_ag"]
-
-	for p in possibleParameters:
-		if not(p in queryDictionary) then queryDictionary[p] = None
-
-	return queryDictionary
-
-# splits a query parameter of the form key=value into a tuple (key, value)
-
+def processCallingUrl(referrerUrl):
+	o = urlparse.urlparse(referrerUrl)
+	p = urlparse.qs(o.query)
+	return (o.geturl, p.get(utm_source, None), p.get(utm_medium, None), p.get(utm_campaign, None), p.get(utm_term, None), p.get(utm_content, None))
 
 
 ##################################
