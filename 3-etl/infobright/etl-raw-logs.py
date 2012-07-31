@@ -40,15 +40,15 @@ def processLine(inputLine):
 		ev_property 	= queryParameters.get('ev_pr', None)
 		ev_value 		= queryParameters.get('ev_va', None)
 		if mkt_source = None:
-			mkt_source		= queryParameters.get('utm_source', None) 
+			mkt_source	= queryParameters.get('utm_source', None) 
 		if mkt_medium = None:
-			mkt_medium		= queryParameters.get('utm_medium', None)
+			mkt_medium	= queryParameters.get('utm_medium', None)
 		if mkt_campaign = None:
-			mkt_campaign	= queryParameters.get('utm_campaign', None)
+			mkt_campaign= queryParameters.get('utm_campaign', None)
 		if mkt_term = None:
-			mkt_term		= queryParameters.get('utm_term', None)
+			mkt_term	= queryParameters.get('utm_term', None)
 		if mkt_content = None:
-			mkt_content		= queryParameters.get('utm_content', None)
+			mkt_content	= queryParameters.get('utm_content', None)
 		
 		return # return a string of tab delimited fields, by concatenating together
 
