@@ -6,18 +6,17 @@
  * Note: each line of data represents one visit
  */
 
- CREATE TABLE IF NOT EXISTS products_cube (
+CREATE TABLE IF NOT EXISTS products_cube (
  	# DIMENSIONS
  		# Product
 	 		`product_sku` varchar(16) comment 'lookup',
 	 		`product_name` varchar(255) comment 'lookup',
 	 		`product_category` varchar(255) comment 'lookup',
-	 		`page_url` varchar(2083), 
-	 		`product_sku` varchar(16),
+	 		`page_url` varchar(2083) comment 'lookup', 
+	 		`product_sku` varchar(16) comment 'lookup',
  		# Customer details
 			`user_id` varchar(16) comment 'lookup',
 			`visit_id` int,		
-
 	 		`dt` date,
 			`tm` time,
 			`step_in_visit` int,

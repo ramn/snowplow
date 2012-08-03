@@ -2,6 +2,7 @@
  * log_events are the raw SnowPlow event logs
  * This is the basis for any cubes (and other data structures) that are used for SnowPlow reports
  * Ad-hoc reports can be run directly off this table 
+ *
  */
 
 CREATE TABLE IF NOT EXISTS log_events (
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS log_events (
 	`br_features_quicktime` boolean,
 	`br_features_realplayer` boolean,
 	`br_features_windowsmedia` boolean,
-	`br_features_gears` boolean ,
+	`br_features_gears` boolean,
 	`br_features_silverlight` boolean,
 	`br_cookies` boolean,
 	`os_name` varchar(30) comment 'lookup',
