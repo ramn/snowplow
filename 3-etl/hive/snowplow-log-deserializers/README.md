@@ -39,6 +39,12 @@ The SnowPlow-specific data is passed to CloudFront as a set of name-value pairs 
 | `ev_la`            | Event Label      | No              | An optional string which identifies the specific object being actioned                                                                 | 
 | `ev_pr`            | Event Property   | No              | An optional string describing the object or the action performed on it                                                                 |
 | `ev_va`            | Event Value      | No              | An optional float to quantify or further describe the user action                                                                      |
+| **Marketing**      |                  |                 | _Used for campaign tracking_                                                                                                           |     
+| `utm_medium`       | Campaign medium  | No              | Label for marketing campaigns to distinguish different types of ads e.g. cpc vs affiliate vs banner vs email...                        |
+| `utm_source`       | Campaign source  | No              | Label for marketing campaigns to identify the source of the ads e.g. Google, Yahoo, Facebook                                           |
+| `utm_term`      v  | Campaign term    | No              | Keywords associated with the ad (important for search)                                                                                 |
+| `utm_content`      | Campaign content | No              | Either the content of the ad creative (if a text ad), or a reference to the content. (So we can distinguish different creatives on the same campaign / source / medium / term)|
+| `utm_campaign`     | Campaign name    | No              | The name of a campaign. Note that a campaign might span multiple sources / mediums / terms adn ad contents                             |
 | **Ad imp**         |                  |                 | _In the SnowPlow querystring whenever an ad impression is logged_                                                                      |
 | `ad_ba`            | Ad Banner ID     | Yes             | Adserver identifier for the ad banner (creative) being displayed                                                                       |
 | `ad_ca`            | Ad Campaign ID   | No              | Adserver identifier for the ad campaign which the banner belongs to                                                                    |
