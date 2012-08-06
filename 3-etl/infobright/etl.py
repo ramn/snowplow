@@ -22,12 +22,16 @@ def processLine(inputLine, dt, debugFile):
 	# create a list, where each field in the original line of data constitues one element in the list
 	fieldsList = inputLine.split(chr(1))
 
+	# a number of lines of data do not have sufficient fields. (if all of them after page_url are NULL). In that case, add null values to the missing fields
+	if len(fieldsList) < 24:
+		print "Not enough fields in line: \t", inputLine
+		debugFile.writelines("Not enough fields in line: \t" + dt + "\t" + inputLine)
+		# Add nulls for all missing fields
+		while len(fieldsList) < 34:
+			fieldsList.append(r'\N')
+	
 	# convert the browser features array (the Xth element in the list) into a single tab delimited string
-	try: 
-		fieldsList[24] = convertBrowserFeatures(fieldsList[24]) # NOTE: is there a better way to do this than using a mutable list?
-	except:
-		print "ERROR! inputLine is \t", inputLine
-		debugFile.writelines("Error converting 24th field (browser features)  to new format.\n Date = \t" + dt + "\n Line = \t" + inputLine)
+	fieldsList[24] = convertBrowserFeatures(fieldsList[24]) # NOTE: is there a better way to do this than using a mutable list?
 
 	# then convert the list into a tab delimited string suitable to be imported into InfoBright
 	outputLine = dt +'\t' + '\t'.join(map(str, fieldsList))
